@@ -9,10 +9,6 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestRoute(t *testing.T) {
-	route()
-}
-
 func TestCallPing(t *testing.T) {
 	// Create a new gin context
 	w := httptest.NewRecorder()
@@ -24,4 +20,16 @@ func TestCallPing(t *testing.T) {
 	// Check the response
 	assert.Equal(t, http.StatusOK, w.Code)
 	assert.JSONEq(t, `{"message": "pong"}`, w.Body.String())
+}
+
+func TestMiddleware(t *testing.T) {
+	// Create a new gin context
+	w := httptest.NewRecorder()
+	c, _ := gin.CreateTestContext(w)
+
+	// Call the function
+	middleware(c)
+
+	// Check the response
+	assert.Empty(t, w.Body.String())
 }
