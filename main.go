@@ -14,8 +14,8 @@ func route() {
 	r := gin.Default()
 	r.Use(gin.Logger())
 	r.Use(gin.Recovery())
-	r.Use(middleware)
-	r.GET("/ping", callPing)
+	// r.Use(middleware)
+	r.GET("/ping", middleware, callPing)
 
 	r.Run(":8080")
 }

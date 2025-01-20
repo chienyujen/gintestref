@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"net/http"
 	"net/http/httptest"
 	"testing"
@@ -16,7 +17,7 @@ func TestCallPing(t *testing.T) {
 
 	// Call the function
 	callPing(c)
-
+	fmt.Println(w.Body.String())
 	// Check the response
 	assert.Equal(t, http.StatusOK, w.Code)
 	assert.JSONEq(t, `{"message": "pong"}`, w.Body.String())
