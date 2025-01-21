@@ -34,3 +34,36 @@ func TestMiddleware(t *testing.T) {
 	// Check the response
 	assert.Empty(t, w.Body.String())
 }
+
+func TestCallPost(t *testing.T) {
+	// Create a new gin context
+	w := httptest.NewRecorder()
+	c, _ := gin.CreateTestContext(w)
+
+	// Call the function
+	callPost(c)
+
+	// Check the response
+	assert.Equal(t, http.StatusOK, w.Code)
+	assert.JSONEq(t, `{"message": "post"}`, w.Body.String())
+}
+
+func TestCallPostFormData(t *testing.T) {
+	// Create a new gin context
+	w := httptest.NewRecorder()
+	c, _ := gin.CreateTestContext(w)
+
+	// Set the request body
+	c.Request = httptest.NewRequest("POST", "/post-form-data", nil)
+	c.Request.Header.Set("Content-Type", "application/form-data")
+	c.Request.Form = make(map[string][]string)
+	c.Request.Form.Add("name", "John")
+	c.Request.Form.Add("age", "30")
+
+	// Call the function
+	callPostFormData(c)
+	fmt.Println(w.Body.String())
+	// Check the response
+	assert.Equal(t, http.StatusOK, w.Code)
+	assert.JSONEq(t, `{"message": "post form data John"}`, w.Body.String())
+}
